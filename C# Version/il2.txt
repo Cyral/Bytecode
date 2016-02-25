@@ -1,0 +1,105 @@
+﻿// Store 20 and 10 as local variables
+push.int 20
+st 1
+push.int 10
+st 2
+
+// Load them, multiply them, and print them
+// (They could be kept on the stack,
+// but just demonstrating local vars)
+ld 1
+ld 2
+mul
+call print
+
+// Push 0 and 5 (to loop from 0 to 5)
+push.int 0
+st 3
+push.int 5
+st 4
+
+// Label 0 prints hello and the iteration
+0: push.str "Hello World"
+  call print
+  ld 3
+  call print
+  ld 3
+  // Add one to the loop # and save it
+  push.int 1
+  add
+  st 3
+  // Load the loop # and max #
+  ld 3
+  ld 4
+  // Compare them, if the loop # > max #, jump to 1
+  comp
+  brfalse 1
+jmp 0
+
+1: nop
+
+---
+push.int 1
+st 0
+push.int 1000
+st 1
+
+0: nop
+  // vars[2] = i % 3
+  push.int 3
+  ld 0
+  mod
+  st 2
+  // vars[3] = i % 5
+  push.int 5
+  ld 0
+  mod
+  st 3
+   // vars[4] = i % 15
+  push.int 15
+  ld 0
+  mod
+  st 4
+
+  ld 4
+  push.int 0
+  eq
+  brtrue 2
+
+  ld 3
+  push.int 0
+  eq
+  brtrue 3
+
+  ld 2
+  push.int 0
+  eq
+  brtrue 4
+
+  ld 0
+  call print
+  
+  10: ld 0
+  push.int 1
+  add
+  st 0
+
+  ld 0
+  ld 1
+  comp
+  brfalse 1
+jmp 0
+
+2: push.str "FizzBuzz"
+  call print
+  jmp 10
+3: push.str "Fizz"
+  call print
+  jmp 10
+4: push.str "Buzz"
+  call print
+  jmp 10
+5: call print
+  ret
+
+1: nop

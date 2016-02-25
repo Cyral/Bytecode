@@ -1,0 +1,73 @@
+﻿push.int 1
+st 0
+push.int 1000000
+st 1
+push.int 0
+st 10
+
+0: nop
+  // vars[2] = i % 3
+  push.int 3
+  ld 0
+  mod
+  st 2
+  // vars[3] = i % 5
+  push.int 5
+  ld 0
+  mod
+  st 3
+   // vars[4] = i % 15
+  push.int 15
+  ld 0
+  mod
+  st 4
+
+  ld 4
+  push.int 0
+  eq
+  brtrue 2
+
+  ld 3
+  push.int 0
+  eq
+  brtrue 3
+
+  ld 2
+  push.int 0
+  eq
+  brtrue 4
+
+  ld 10
+  ld 0
+  add
+  st 10
+  
+  10: ld 0
+  push.int 1
+  add
+  st 0
+
+  ld 0
+  ld 1
+  comp
+  brfalse 1
+jmp 0
+
+2: ld 10
+  push.int 3
+  add
+  st 10
+  jmp 10
+3: ld 10
+  push.int 1
+  add
+  st 10
+  jmp 10
+4: ld 10
+  push.int 2
+  add
+  st 10
+  jmp 10
+
+1: ld 10
+call print
