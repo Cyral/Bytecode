@@ -5,6 +5,7 @@
 #include <map>
 #include "stackvalue.h"
 #include "parser.h"
+#include "faststack.h"
 using namespace std;
 
 namespace bytecode
@@ -17,7 +18,7 @@ namespace bytecode
 	private:
 		parser* parser;
 		vector<string> lines;
-		vector<stackvalue> stack;
+		faststack stack;
 		map<int, stackvalue> locals;
 	};
 }
