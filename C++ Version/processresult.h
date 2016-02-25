@@ -12,9 +12,9 @@ namespace bytecode
 	{
 	public:
 		processresult();
-		processresult(vector<instruction*> final_instructions, map<int, int> jumptable);
+		processresult(vector<instruction> final_instructions, map<int, int> jumptable);
 		map<int, int> jumptable;
-		vector<instruction*> instructions;
+		vector<instruction> instructions;
 	};
 }
 #endif

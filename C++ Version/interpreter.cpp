@@ -27,10 +27,13 @@ void interpreter::run() {
 
 		int from = 0;
 		int total = 0;
-		for (int ip = 0; ip < instructions.size(); ip++)
+		const int num = instructions.size();
+		const instruction* ptr = instructions.data();
+		for(int ip = 0; ip < num; ip++)
 		{
+				auto const instruction = *ptr[ip];
+
 				total++;
-				auto const instruction = instructions[ip];
 
 				switch (instruction->code)
 				{
@@ -101,7 +104,7 @@ void interpreter::run() {
 						{
 								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index] - 1;
+								ip = jumptable[index];
 						}
 						break;
 				}
@@ -115,7 +118,7 @@ void interpreter::run() {
 						{
 								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index] - 1;
+								ip = jumptable[index];
 						}
 						break;
 				}
@@ -125,7 +128,7 @@ void interpreter::run() {
 						{
 								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index] - 1;
+								ip = jumptable[index];
 						}
 						stack.pop_back();
 						break;
@@ -136,7 +139,7 @@ void interpreter::run() {
 						{
 								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index] - 1;
+								ip = jumptable[index];
 						}
 						stack.pop_back();
 						break;
@@ -145,15 +148,16 @@ void interpreter::run() {
 				{
 						const int index = instruction->data.get_int();
 						from = ip;
-						ip = jumptable[index] - 1;
+						ip = jumptable[index];
 
 						break;
 				}
 
 				case opcode::CALL:
 				{
-						//stack.pop_back();
-						//break;
+						stack.pop_back();
+						break;
+
 						string function = instruction->data.get_string();
 						if (function == "print")
 						{

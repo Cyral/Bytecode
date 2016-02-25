@@ -95,9 +95,9 @@ namespace bytecode {
 				idata = stackvalue(num);
 				// For instructions involving jumps
 				if (code == opcode::JMP || code == opcode::BRFALSE || code == opcode::BRTRUE || code == opcode::BRLE || code == opcode::BRLT)
-					result->jumptable[num] = tempjumps[num];
+					result->jumptable[num] = tempjumps[num] - 1;
 			}
-			result->instructions.push_back(new instruction(code, type, idata));
+			result->instructions.push_back(instruction(code, type, idata));
 		}
 
 		return result;

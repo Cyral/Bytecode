@@ -18,9 +18,9 @@ namespace bytecode
 		stackvalue(const stackvalue &value);
 		~stackvalue();
 		valuetype dataType;
-		string get_string();
-	  int get_int();
-		bool get_bool();
+		string get_string() const;
+	  int get_int() const;
+		bool get_bool() const;
 		union {
 			int integer;
 			//string str;
