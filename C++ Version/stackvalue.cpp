@@ -2,6 +2,7 @@
 #include <iostream>
 namespace bytecode {
 
+
 stackvalue::stackvalue(const stackvalue &value)
 {
 		stackvalue::dataType = value.dataType;
@@ -9,11 +10,11 @@ stackvalue::stackvalue(const stackvalue &value)
 			stackvalue::integer = value.integer;
 		else if (value.dataType == valuetype::BOOL)
 			stackvalue::boolean = value.boolean;
-		else if (value.dataType == valuetype::STR)
-			stackvalue::str = value.str;
+	//	else if (value.dataType == valuetype::STR)
+			//stackvalue::str = value.str;
 }
 stackvalue::stackvalue(string const value) {
-		stackvalue::str = value;
+	//	stackvalue::str = value;
 		stackvalue::dataType = valuetype::STR;
 }
 

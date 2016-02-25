@@ -13,9 +13,9 @@ namespace bytecode
 	{
 	public:
 		instruction();
-		instruction(opcode opcode, valuetype dataType, stackvalue* data);
+		instruction(opcode opcode, valuetype dataType, stackvalue data);
 		opcode code;
-		stackvalue* data;
+		stackvalue data;
 		valuetype dataType;
 	};
 }

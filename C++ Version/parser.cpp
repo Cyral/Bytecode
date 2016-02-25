@@ -83,16 +83,16 @@ namespace bytecode {
 			else if (code == opcode::CALL)
 				type = valuetype::STR;
 
-			stackvalue* idata = nullptr;
+			stackvalue idata;
 			if (type == valuetype::STR)
-				idata = new stackvalue("print");
+				idata = stackvalue("print");
 			else if (type == valuetype::BOOL)
-				idata = new stackvalue(dataText != "false");
+				idata = stackvalue(dataText != "false");
 			else if (type == valuetype::INT)
 			{
 				int num = 0;
 				stringstream(dataText) >> num;
-				idata = new stackvalue(num);
+				idata = stackvalue(num);
 				// For instructions involving jumps
 				if (code == opcode::JMP || code == opcode::BRFALSE || code == opcode::BRTRUE || code == opcode::BRLE || code == opcode::BRLT)
 					result->jumptable[num] = tempjumps[num];

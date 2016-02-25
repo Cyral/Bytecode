@@ -9,6 +9,9 @@ namespace bytecode
 {
 	struct stackvalue {
 	public:
+		stackvalue() {
+			stackvalue::dataType = valuetype::NONE;
+		}
 		stackvalue(string);
 		stackvalue(int);
 		stackvalue(bool);
@@ -20,7 +23,7 @@ namespace bytecode
 		bool get_bool();
 		union {
 			int integer;
-			string str;
+			//string str;
 			bool boolean;
 		};
 	};

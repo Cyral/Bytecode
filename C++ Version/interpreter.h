@@ -17,8 +17,8 @@ namespace bytecode
 	private:
 		parser* parser;
 		vector<string> lines;
-		vector<stackvalue*> stack;
-		map<int, stackvalue*> locals;
+		vector<stackvalue> stack;
+		map<int, stackvalue> locals;
 	};
 }
 #endif

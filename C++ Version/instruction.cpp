@@ -4,7 +4,7 @@ namespace bytecode {
 	instruction::instruction()
 	{
 	}
-	instruction::instruction(opcode opcode, valuetype dataType, stackvalue* data)
+	instruction::instruction(opcode opcode, valuetype dataType, stackvalue data)
 	{
 		instruction::code = opcode;
 		instruction::dataType = dataType;

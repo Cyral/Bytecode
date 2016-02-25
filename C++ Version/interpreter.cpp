@@ -15,8 +15,8 @@ interpreter::interpreter(vector<string> lines)
 {
 		interpreter::lines = lines;
 		interpreter::parser = new bytecode::parser();
-		interpreter::locals = map<int, stackvalue*>();
-		interpreter::stack = vector<stackvalue*>();
+		interpreter::locals = map<int, stackvalue>();
+		interpreter::stack = vector<stackvalue>();
 }
 
 void interpreter::run() {
@@ -36,95 +36,70 @@ void interpreter::run() {
 				{
 
 				case opcode::PUSH:
-						stack.push_back(new stackvalue(*instruction->data));
+						stack.push_back(stackvalue(instruction->data));
 						break;
 
 				case opcode::ST:
 				{
-						const int index = instruction->data->get_int();
-						delete locals[index];
-						auto back = stack.back();
-						locals[index] = new stackvalue(*back);
+						const int index = instruction->data.get_int();
+						locals[index] = stackvalue(stack.back());
 						stack.pop_back();
-						delete back;
 						break;
 				}
 				case opcode::LD:
 				{
-						const int index = instruction->data->get_int();
-						stack.push_back(new stackvalue(*locals[index]));
+						const int index = instruction->data.get_int();
+						stack.push_back(stackvalue(locals[index]));
 						break;
 				}
 
 				case opcode::MUL:
 				{
-						auto b2 = stack.back();
-						int val2 = b2->get_int();
+						const int val2 = stack.back().get_int();
 						stack.pop_back();
-						delete b2;
-						auto b1 = stack.back();
-						int val1 = b1->get_int();
+						const int val1 = stack.back().get_int();
 						stack.pop_back();
-						delete b1;
-
-						stack.push_back(new stackvalue(val1*val2));
+						stack.push_back(stackvalue(val1*val2));
 						break;
 				}
 
 				case opcode::ADD:
 				{
-					const auto b2 = stack.back();
-					const int val2 = b2->get_int();
-					stack.pop_back();
-					delete b2;
-					const auto b1 = stack.back();
-					const int val1 = b1->get_int();
-					stack.pop_back();
-					delete b1;
-						stack.push_back(new stackvalue(val1 + val2));
+						const int val2 = stack.back().get_int();
+						stack.pop_back();
+						const int val1 = stack.back().get_int();
+						stack.pop_back();
+						stack.push_back(stackvalue(val1 + val2));
 						break;
 				}
 				case opcode::SUB:
 				{
-					const auto b2 = stack.back();
-					const int val2 = b2->get_int();
-					stack.pop_back();
-					delete b2;
-					const auto b1 = stack.back();
-					const int val1 = b1->get_int();
-					stack.pop_back();
-					delete b1;
-						stack.push_back(new stackvalue(val1 - val2));
+						const int val2 = stack.back().get_int();
+						stack.pop_back();
+						const int val1 = stack.back().get_int();
+						stack.pop_back();
+						stack.push_back(stackvalue(val1 - val2));
 						break;
 				}
 				case opcode::MOD:
 				{
-					const auto b2 = stack.back();
-					const int val2 = b2->get_int();
-					stack.pop_back();
-					delete b2;
-					const auto b1 = stack.back();
-					const int val1 = b1->get_int();
-					stack.pop_back();
-					delete b1;
-
-						stack.push_back(new stackvalue(val1%val2));
+						const int val2 = stack.back().get_int();
+						stack.pop_back();
+						const int val1 = stack.back().get_int();
+						stack.pop_back();
+						stack.push_back(stackvalue(val1%val2));
 						break;
 				}
 
 				case opcode::BRLT:
 				{
-					const auto b2 = stack.back();
-					const int val2 = b2->get_int();
-					stack.pop_back();
-					delete b2;
-					const auto b1 = stack.back();
-					const int val1 = b1->get_int();
-					stack.pop_back();
-					delete b1;
+						const int val2 = stack.back().get_int();
+						stack.pop_back();
+						const int val1 = stack.back().get_int();
+						stack.pop_back();
 						if (val1 < val2)
 						{
-								int index = instruction->data->get_int();
+								int index = instruction->data.get_int();
 								from = ip;
 								ip = jumptable[index] - 1;
 						}
@@ -132,16 +107,13 @@ void interpreter::run() {
 				}
 				case opcode::BRLE:
 				{
-					const auto b2 = stack.back();
-					const int val2 = b2->get_int();
-					stack.pop_back();
-					delete b2;
-					const auto b1 = stack.back();
-					const int val1 = b1->get_int();
-					stack.pop_back();
+						const int val2 = stack.back().get_int();
+						stack.pop_back();
+						const int val1 = stack.back().get_int();
+						stack.pop_back();
 						if (val1 <= val2)
 						{
-								int index = instruction->data->get_int();
+								int index = instruction->data.get_int();
 								from = ip;
 								ip = jumptable[index] - 1;
 						}
@@ -149,33 +121,29 @@ void interpreter::run() {
 				}
 				case opcode::BRFALSE:
 				{
-						const auto p = stack.back();
-						if (!p->get_bool())
+						if (!stack.back().get_bool())
 						{
-								int index = instruction->data->get_int();
+								int index = instruction->data.get_int();
 								from = ip;
 								ip = jumptable[index] - 1;
 						}
 						stack.pop_back();
-						delete p;
 						break;
 				}
 				case opcode::BRTRUE:
 				{
-						const auto p = stack.back();
-						if (p->get_bool())
+						if (stack.back().get_bool())
 						{
-								int index = instruction->data->get_int();
+								int index = instruction->data.get_int();
 								from = ip;
 								ip = jumptable[index] - 1;
 						}
 						stack.pop_back();
-						delete p;
 						break;
 				}
 				case opcode::JMP:
 				{
-						const int index = instruction->data->get_int();
+						const int index = instruction->data.get_int();
 						from = ip;
 						ip = jumptable[index] - 1;
 
@@ -184,14 +152,12 @@ void interpreter::run() {
 
 				case opcode::CALL:
 				{
-						const auto p = stack.back();
-						stack.pop_back();
-						delete p;
-						break;
-						string function = instruction->data->get_string();
+						//stack.pop_back();
+						//break;
+						string function = instruction->data.get_string();
 						if (function == "print")
 						{
-								cout << stack.back()->get_string() << endl;
+								cout << stack.back().get_string() << endl;
 								stack.pop_back();
 						}
 						break;
