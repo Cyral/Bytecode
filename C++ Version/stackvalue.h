@@ -29,8 +29,8 @@ namespace bytecode
 				integer = value.integer;
 			else if (value.dataType == valuetype::BOOL)
 				boolean = value.boolean;
-			//	else if (value.dataType == valuetype::STR)
-			//stackvalue::str = value.str;
+		//	else if (value.dataType == valuetype::STR)
+			//  str = value.str;
 		};
 		valuetype dataType;
 		inline int get_int() const {
@@ -43,8 +43,7 @@ namespace bytecode
 						stm << integer;
 						return stm.str();
 				}
-				return "print";//stackvalue::str;
-				// crashes if not explicitly "print" !!!!!!!!!!!
+				return "print";
 		};
 		inline bool get_bool() const {
 				if (dataType == valuetype::INT)

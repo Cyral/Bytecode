@@ -52,33 +52,33 @@ void interpreter::run() {
 						stack.push(locals[instruction->data.get_int()]);
 						break;
 				}
-
+				case opcode::INC:
+				{
+						const auto index = instruction->data.get_int();
+						locals[index] = stackvalue(locals[index].get_int() + 1);
+						break;
+				}
+				case opcode::DEC:
+				{
+						const auto index = instruction->data.get_int();
+						locals[index] = stackvalue(locals[index].get_int() - 1);
+						break;
+				}
 				case opcode::MUL:
-				{
-						stack.push(stackvalue(stack.pop().get_int() * stack.pop().get_int()));
+						stack.mul();
 						break;
-				}
-
+				case opcode::DIV:
+						stack.div();
+						break;
 				case opcode::ADD:
-				{
-						stack.push(stackvalue(stack.pop().get_int() + stack.pop().get_int()));
+						stack.add();
 						break;
-				}
 				case opcode::SUB:
-				{
-						const int val2 = stack.pop().get_int();
-						const int val1 = stack.pop().get_int();
-						stack.push(stackvalue(val1 - val2));
+						stack.sub();
 						break;
-				}
 				case opcode::MOD:
-				{
-						const int val2 = stack.pop().get_int();
-						const int val1 = stack.pop().get_int();
-						stack.push(stackvalue(val1%val2));
+						stack.mod();
 						break;
-				}
-
 				case opcode::BRLT:
 				{
 						const int val2 = stack.pop().get_int();
@@ -127,8 +127,8 @@ void interpreter::run() {
 
 				case opcode::CALL:
 				{
-						stack.pop();
-						break;
+						//	stack.pop();
+						//break;
 
 						string function = instruction->data.get_string();
 						if (function == "print")

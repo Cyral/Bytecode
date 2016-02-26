@@ -24,6 +24,26 @@ namespace bytecode
    inline stackvalue pop() {
 	   return contents[index--];
 	 }
+	 inline void mul() {
+		 contents[index - 1] = stackvalue(contents[index -1].get_int() * contents[index].get_int());
+		 index--;
+	 }
+	 inline void div() {
+		 contents[index - 1] = stackvalue(contents[index -1].get_int() / contents[index].get_int());
+		 index--;
+	 }
+	 inline void mod() {
+		 contents[index - 1] = stackvalue(contents[index -1].get_int() % contents[index].get_int());
+		 	index--;
+	 }
+	 inline void add() {
+		 contents[index - 1] = stackvalue(contents[index -1].get_int() + contents[index].get_int());
+		 index--;
+	 }
+	 inline void sub() {
+		 contents[index - 1] = stackvalue(contents[index -1].get_int() - contents[index].get_int());
+		 index--;
+	 }
 	};
 }
 #endif

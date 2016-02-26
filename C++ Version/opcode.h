@@ -28,6 +28,9 @@ namespace bytecode
 
 		COMP,
 
+		INC,
+		DEC,
+
 		CALL,
 		RET,
 
