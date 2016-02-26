@@ -29,27 +29,27 @@ void interpreter::run() {
 		int total = 0;
 		const int num = instructions.size();
 		const instruction* ptr = instructions.data();
-		for(int ip = 0; ip < num; ip++)
+		for (int ip = 0; ip < num; ip++)
 		{
 				auto const instruction = &ptr[ip];
-				//	cout << ip << endl;
+
 				total++;
 
 				switch (instruction->code)
 				{
 
 				case opcode::PUSH:
-						stack.push(stackvalue(instruction->data));
+						stack.push(instruction->data);
 						break;
 
 				case opcode::ST:
 				{
-						locals[instruction->data.get_int()] = stackvalue(stack.pop());
+						locals[instruction->data.get_int()] = stack.pop();
 						break;
 				}
 				case opcode::LD:
 				{
-						stack.push(stackvalue(locals[instruction->data.get_int()]));
+						stack.push(locals[instruction->data.get_int()]);
 						break;
 				}
 
@@ -82,24 +82,20 @@ void interpreter::run() {
 				case opcode::BRLT:
 				{
 						const int val2 = stack.pop().get_int();
-						const int val1 = stack.pop().get_int();
-						if (val1 < val2)
+						if (stack.pop().get_int() < val2)
 						{
-								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index];
+								ip = jumptable[instruction->data.get_int()];
 						}
 						break;
 				}
 				case opcode::BRLE:
 				{
 						const int val2 = stack.pop().get_int();
-						const int val1 = stack.pop().get_int();
-						if (val1 <= val2)
+						if (stack.pop().get_int() <= val2)
 						{
-								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index];
+								ip = jumptable[instruction->data.get_int()];
 						}
 						break;
 				}
@@ -107,9 +103,8 @@ void interpreter::run() {
 				{
 						if (!stack.pop().get_bool())
 						{
-								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index];
+								ip = jumptable[instruction->data.get_int()];
 						}
 						break;
 				}
@@ -117,17 +112,15 @@ void interpreter::run() {
 				{
 						if (stack.pop().get_bool())
 						{
-								int index = instruction->data.get_int();
 								from = ip;
-								ip = jumptable[index];
+								ip = jumptable[instruction->data.get_int()];
 						}
 						break;
 				}
 				case opcode::JMP:
 				{
-						const int index = instruction->data.get_int();
 						from = ip;
-						ip = jumptable[index];
+						ip = jumptable[instruction->data.get_int()];
 
 						break;
 				}

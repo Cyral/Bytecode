@@ -17,8 +17,9 @@ namespace bytecode
 	public:
     faststack();
    ~faststack();
-   inline void push(stackvalue value) {
+   inline void push(const stackvalue& value) {
 		 contents[++index] = value;
+		 // TODO: Implement resizing
 	 }
    inline stackvalue pop() {
 	   return contents[index--];
