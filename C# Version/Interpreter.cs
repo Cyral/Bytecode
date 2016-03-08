@@ -33,7 +33,7 @@ namespace Cyral
         {
             // Run the parser.
             var parserResult = parser.Run(source);
-            var optimizedResult = parserResult; //optimizer.Run(parserResult);
+            var optimizedResult = optimizer.Run(parserResult);
             instructions = optimizedResult.Instructions;
 
             // Calculate jumps.

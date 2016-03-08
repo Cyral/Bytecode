@@ -127,9 +127,6 @@ void interpreter::run() {
 
 				case opcode::CALL:
 				{
-						//	stack.pop();
-						//break;
-
 						string function = instruction->data.get_string();
 						if (function == "print")
 						{

@@ -21,17 +21,9 @@ namespace bytecode
 		};
 		inline stackvalue(const bool value){
 				dataType = valuetype::BOOL;
-				boolean = value;
+				integer = value ? 1 : 0;
 		};
-		inline stackvalue(const stackvalue &value) {
-			dataType = value.dataType;
-			if (value.dataType == valuetype::INT)
-				integer = value.integer;
-			else if (value.dataType == valuetype::BOOL)
-				boolean = value.boolean;
-		//	else if (value.dataType == valuetype::STR)
-			//  str = value.str;
-		};
+
 		valuetype dataType;
 		inline int get_int() const {
 				return integer;
@@ -46,15 +38,9 @@ namespace bytecode
 				return "print";
 		};
 		inline bool get_bool() const {
-				if (dataType == valuetype::INT)
-						return integer != 0;
-				return boolean;
+				return integer != 0;
 		};
-		union {
-			int integer;
-			//string str;
-			bool boolean;
-		};
+		int integer;
 	};
 }
 
