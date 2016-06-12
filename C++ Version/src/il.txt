@@ -1,0 +1,21 @@
+push.int 0
+st 0
+push.int 2000000
+st 1
+push.int 0
+st 2
+
+0: ld 0
+push.int 1
+add
+st 0
+ld 0
+ld 2
+add
+st 2
+ld 0
+ld 1
+brlt 0
+
+ld 2
+call print

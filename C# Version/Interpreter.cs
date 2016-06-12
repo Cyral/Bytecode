@@ -235,8 +235,8 @@ namespace Cyral
         {
             if (name == "print")
             {
-                stack.Pop();
-               // Console.WriteLine(stack.Pop().Data);
+                //stack.Pop();
+                Console.WriteLine(stack.Pop().Data);
             }
             else if (name == "input")
             {
